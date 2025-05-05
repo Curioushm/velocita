@@ -4,7 +4,7 @@ import { FiShoppingCart, FiHeart } from 'react-icons/fi';
 const ProductCard = ({ product }) => {
   const { id, name, price, image, discount, rating, inStock } = product;
 
-  const discountedPrice = discount ? (price - (price * discount / 100)).toFixed(2) : price;
+  const discountedPrice = discount ? (price - (price * discount / 100)).toFixed(2) : Number(price).toFixed(2);
 
   return (
     <div className="card group">
@@ -58,10 +58,10 @@ const ProductCard = ({ product }) => {
             {discount > 0 ? (
               <div className="flex items-center">
                 <span className="text-primary font-semibold">${discountedPrice}</span>
-                <span className="text-gray-500 text-sm line-through ml-2">${price.toFixed(2)}</span>
+                <span className="text-gray-500 text-sm line-through ml-2">${Number(price).toFixed(2)}</span>
               </div>
             ) : (
-              <span className="text-primary font-semibold">${price.toFixed(2)}</span>
+              <span className="text-primary font-semibold">${Number(price).toFixed(2)}</span>
             )}
           </div>
 

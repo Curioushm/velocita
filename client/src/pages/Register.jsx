@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FiMail, FiLock, FiUser, FiArrowRight } from 'react-icons/fi';
+import axios from 'axios'; // Import axios for API calls
 
 const Register = () => {
   const [name, setName] = useState('');
@@ -35,18 +36,20 @@ const Register = () => {
     setLoading(true);
     setError('');
     
-    // Simulate API call
     try {
-      // In a real app, this would be an API call to register
-      setTimeout(() => {
-        // Successful registration
-        setLoading(false);
-        // Redirect to login page
-        navigate('/login');
-      }, 1000);
+      // API call to register the user
+      const { data } = await axios.post('/api/users', {
+        name,
+        email,
+        password,
+      });
+
+      // Successful registration
+      setLoading(false);
+      navigate('/login'); // Redirect to login page
     } catch (err) {
       setLoading(false);
-      setError('Registration failed. Please try again.');
+      setError(err.response?.data?.message || 'Registration failed. Please try again.');
     }
   };
 

@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FiMail, FiLock, FiUser, FiArrowRight } from 'react-icons/fi';
+import axios from 'axios';
+import { AuthContext } from '../context/AuthContext';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -10,6 +12,7 @@ const Login = () => {
   const [error, setError] = useState('');
   
   const navigate = useNavigate();
+  const { setUser } = useContext(AuthContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,18 +26,20 @@ const Login = () => {
     setLoading(true);
     setError('');
     
-    // Simulate API call
     try {
-      // In a real app, this would be an API call to authenticate
-      setTimeout(() => {
-        // Successful login
-        setLoading(false);
-        // Redirect to home page or previous page
-        navigate('/');
-      }, 1000);
+      // API call to login endpoint
+      const { data } = await axios.post('/api/users/login', { email, password });
+
+      // Store token in localStorage
+      localStorage.setItem('userInfo', JSON.stringify(data));
+      setUser(data); // Update global state
+
+      // Redirect to home page or previous page
+      navigate('/');
     } catch (err) {
+      setError(err.response?.data?.message || 'Invalid email or password');
+    } finally {
       setLoading(false);
-      setError('Invalid email or password');
     }
   };
 

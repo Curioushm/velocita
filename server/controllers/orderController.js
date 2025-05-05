@@ -145,8 +145,7 @@ export const updateOrderStatus = async (req, res) => {
       const updatedOrder = await order.save();
       res.json(updatedOrder);
     } else {
-      res.status(404);
-      throw new Error('Order not found');
+      res.status(404).json({ message: error.message });
     }
   } catch (error) {
     res.status(404).json({ message: error.message });
@@ -172,15 +171,14 @@ export const getOrders = async (req, res) => {
   try {
     const pageSize = Number(req.query.pageSize) || 10;
     const page = Number(req.query.page) || 1;
-    
+
     const count = await Order.countDocuments({});
-    
     const orders = await Order.find({})
       .populate('user', 'id name')
       .limit(pageSize)
       .skip(pageSize * (page - 1))
       .sort({ createdAt: -1 });
-    
+
     res.json({
       orders,
       page,

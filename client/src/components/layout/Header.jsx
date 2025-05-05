@@ -55,8 +55,7 @@ const Header = () => {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center">
-            <span className="text-2xl font-bold text-primary">VELOCITA</span>
-            <span className="text-2xl font-bold text-secondary ml-1">ELECTRONICS</span>
+            <img src="/velotica-logo.png" alt="Velotica Electronics Logo" className="h-10" />
           </Link>
 
           {/* Search bar - hidden on mobile */}

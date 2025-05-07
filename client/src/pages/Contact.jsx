@@ -156,7 +156,7 @@ const Contact = () => {
               </div>
               <div>
                 <h3 className="font-semibold">Phone</h3>
-                <p className="text-gray-600">+91 1234567890</p>
+                <p className="text-gray-600 hover:text-primary cursor-pointer">+91 74781 86693</p>
               </div>
             </div>
             <div className="flex items-start space-x-4">

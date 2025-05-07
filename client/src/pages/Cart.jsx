@@ -142,11 +142,11 @@ const Cart = () => {
                         <div className="md:hidden inline-block font-medium mr-2">Price:</div>
                         {item.discount > 0 ? (
                           <div>
-                            <span className="font-medium">${itemPrice}</span>
-                            <span className="text-sm text-gray-500 line-through ml-2">${item.price.toFixed(2)}</span>
+                            <span className="font-medium">₹{itemPrice}</span>
+                            <span className="text-sm text-gray-500 line-through ml-2">₹{item.price.toFixed(2)}</span>
                           </div>
                         ) : (
-                          <span className="font-medium">${itemPrice}</span>
+                          <span className="font-medium">₹{itemPrice}</span>
                         )}
                       </div>
 
@@ -228,7 +228,7 @@ const Cart = () => {
                 </div>
                 {couponApplied && (
                   <div className="text-green-600 text-sm mt-2">
-                    Coupon applied successfully! You saved ${couponDiscount.toFixed(2)}
+                    Coupon applied successfully! You saved ₹{couponDiscount.toFixed(2)}
                   </div>
                 )}
               </div>
@@ -257,7 +257,7 @@ const Cart = () => {
                   {couponApplied && (
                     <div className="flex justify-between text-green-600">
                       <span>Coupon Discount</span>
-                      <span>-${couponDiscount.toFixed(2)}</span>
+                      <span>-₹{couponDiscount.toFixed(2)}</span>
                     </div>
                   )}
                   <div className="border-t pt-3 mt-3">

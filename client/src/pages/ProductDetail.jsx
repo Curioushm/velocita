@@ -167,7 +167,7 @@ const ProductDetail = () => {
                     </span>
                   </div>
                 ) : (
-                  <span className="text-3xl font-bold text-primary">${product.price.toFixed(2)}</span>
+                  <span className="text-3xl font-bold text-primary">₹{product.price.toFixed(2)}</span>
                 )}
               </div>
               

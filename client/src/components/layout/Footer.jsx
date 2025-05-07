@@ -97,14 +97,14 @@ const Footer = () => {
               </li>
               <li className="flex items-center">
                 <FiPhone className="mr-3 text-secondary" />
-                <a href="tel:+1234567890" className="text-gray-300 hover:text-white">
-                  +1 (234) 567-890
+                <a href="tel:+917478186693" className="text-gray-300 hover:text-primary">
+                  +91 74781 86693
                 </a>
               </li>
               <li className="flex items-center">
                 <FiMail className="mr-3 text-secondary" />
-                <a href="mailto:support@velocitaelectronics.com" className="text-gray-300 hover:text-white">
-                  support@velocitaelectronics.com
+                <a href="mailto:support@velocita-electronics.xyz" className="text-gray-300 hover:text-white">
+                support@velocita-electronics.xyz
                 </a>
               </li>
             </ul>

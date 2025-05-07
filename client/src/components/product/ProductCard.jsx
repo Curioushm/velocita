@@ -57,11 +57,11 @@ const ProductCard = ({ product }) => {
           <div>
             {discount > 0 ? (
               <div className="flex items-center">
-                <span className="text-primary font-semibold">${discountedPrice}</span>
-                <span className="text-gray-500 text-sm line-through ml-2">${Number(price).toFixed(2)}</span>
+                <span className="text-primary font-semibold">₹{discountedPrice}</span>
+                <span className="text-gray-500 text-sm line-through ml-2">₹{Number(price).toFixed(2)}</span>
               </div>
             ) : (
-              <span className="text-primary font-semibold">${Number(price).toFixed(2)}</span>
+              <span className="text-primary font-semibold">₹{Number(price).toFixed(2)}</span>
             )}
           </div>
 

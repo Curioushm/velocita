@@ -34,18 +34,18 @@ const Header = () => {
       <div className="bg-primary text-white py-2">
         <div className="container-custom flex justify-between items-center">
           <div className="flex items-center space-x-4 text-sm">
-            <a href="tel:+1234567890" className="flex items-center hover:text-gray-200">
-              <FiPhone className="mr-1" /> +1 (234) 567-890
+            <a href="tel:+917478186693" className="flex items-center hover:text-gray-200">
+              <FiPhone className="mr-1" /> +91 74781 86693
             </a>
-            <a href="mailto:support@velocitaelectronics.com" className="flex items-center hover:text-gray-200">
-              <FiMail className="mr-1" /> support@velocitaelectronics.com
+            <a href="mailto:support@velocita-electronics.xyz" className="flex items-center hover:text-gray-200">
+              <FiMail className="mr-1" /> support@velocita-electronics.xyz
             </a>
           </div>
           <div className="flex items-center space-x-4 text-sm">
             <Link to="/about" className="hover:text-gray-200">About Us</Link>
             <Link to="/blog" className="hover:text-gray-200">Blog</Link>
             <Link to="/contact" className="hover:text-gray-200">Contact</Link>
-            <span>Free Shipping on Orders above $50</span>
+            <span>Free Shipping on Orders above ₹5000</span>
           </div>
         </div>
       </div>

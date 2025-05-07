@@ -9,7 +9,7 @@ export const featuredProducts = [
     id: 1,
     name: "Arduino Uno R3 Development Board",
     price: 350.00,
-    image: "/src/data/arduino.jpg", // Updated path
+    image: "/images/arduino.jpg", // Updated path
     category: "development-boards",
     rating: 4.8,
     discount: 0,

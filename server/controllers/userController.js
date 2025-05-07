@@ -39,11 +39,14 @@ export const registerUser = async (req, res) => {
         token: generateToken(user._id),
       });
     } else {
+      // This case is less likely if User.create throws on failure,
+      // but included for completeness.
       res.status(400);
       throw new Error('Invalid user data');
     }
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    console.error('REGISTRATION ERROR:', error.message, error.stack); // Log the full error on the server
+    res.status(400).json({ message: error.message || 'An unexpected error occurred during registration.' });
   }
 };
 

@@ -38,7 +38,8 @@ const Register = () => {
     
     try {
       // API call to register the user
-      const { data } = await axios.post('/api/users', {
+      // Ensure your backend server is running, e.g., on http://localhost:5000
+      const { data } = await axios.post('http://localhost:5000/api/users', {
         name,
         email,
         password,

@@ -45,7 +45,7 @@ const Header = () => {
             <Link to="/about" className="hover:text-gray-200">About Us</Link>
             <Link to="/blog" className="hover:text-gray-200">Blog</Link>
             <Link to="/contact" className="hover:text-gray-200">Contact</Link>
-            <span>Free Shipping on Orders above ₹5000</span>
+            <span>Free Shipping on Orders above ₹1000</span>
           </div>
         </div>
       </div>

@@ -59,7 +59,7 @@ export const featuredProducts = [
     id: 6,
     name: "High Quality 18650 Lithium Battery - 2600mAh",
     price: 149,
-    image: "/images/arduinonano.jpg",
+    image: "/images/2600mah.jpg",
     category: "batteries",
     rating: 4.4,
     discount: 15,

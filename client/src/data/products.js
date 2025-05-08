@@ -57,12 +57,17 @@ export const featuredProducts = [
   },
   {
     id: 6,
+<<<<<<< HEAD
     name: "18650 Lithium Battery - 3000mAh",
     price: 7.99,
+=======
+    name: "High Quality 18650 Lithium Battery - 2600mAh",
+    price: 149,
+>>>>>>> 70a141bb192a68ee715b488b13ce9a1ba3d4bd68
     image: "/images/2600mah.jpg",
     category: "batteries",
     rating: 4.4,
-    discount: 0,
+    discount: 15,
     inStock: true,
   },
   {

@@ -37,12 +37,12 @@ export const featuredProducts = [
   },
   {
     id: 4,
-    name: "HC-SR04 Ultrasonic Distance Sensor",
-    price: 3.99,
-    image: "/images/products/hc-sr04.jpg",
-    category: "sensors",
+    name: "Arduino Nano Development Board",
+    price: 199,
+    image: "/images/arduinonano.jpg",
+    category: "development-boards",
     rating: 4.6,
-    discount: 0,
+    discount: 5,
     inStock: true,
   },
   {

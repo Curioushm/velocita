@@ -59,7 +59,7 @@ export const featuredProducts = [
     id: 6,
     name: "18650 Lithium Battery - 3000mAh",
     price: 7.99,
-    image: "/images/products/18650-battery.jpg",
+    image: "/images/2600mah.jpg",
     category: "batteries",
     rating: 4.4,
     discount: 0,

@@ -144,9 +144,9 @@ const Contact = () => {
               <div>
                 <h3 className="font-semibold">Address</h3>
                 <p className="text-gray-600">
-                  123 Tech Street<br />
-                  Electronics City<br />
-                  Bangalore, India 560100
+                  Future Institute of Engineering & Management <br />
+                  Sonarpur Rajpur <br />
+                  Kolkata 700150, West Bengal, India
                 </p>
               </div>
             </div>
@@ -165,7 +165,7 @@ const Contact = () => {
               </div>
               <div>
                 <h3 className="font-semibold">Email</h3>
-                <p className="text-gray-600">contact@velocitaelectronics.com</p>
+                <p className="text-gray-600">support@velocitaelectronics.com</p>
               </div>
             </div>
           </div>

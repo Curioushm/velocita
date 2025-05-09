@@ -3,24 +3,7 @@ import { Link } from 'react-router-dom';
 import { FiTrash2, FiPlus, FiMinus, FiArrowRight, FiShoppingCart } from 'react-icons/fi';
 
 // Mock data - in a real app, this would come from a state management system like Redux
-const initialCartItems = [
-  {
-    id: 1,
-    name: "Arduino Uno R3 Development Board",
-    price: 24.99,
-    image: "/images/products/arduino-uno.jpg",
-    quantity: 1,
-    discount: 0,
-  },
-  {
-    id: 3,
-    name: "DHT22 Temperature and Humidity Sensor Module",
-    price: 8.99,
-    image: "/images/products/dht22.jpg",
-    quantity: 2,
-    discount: 10,
-  },
-];
+
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState(initialCartItems);

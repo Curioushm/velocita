@@ -45,13 +45,13 @@ const Home = () => {
     {
       id: 1,
       name: 'Development Boards',
-      image: '/images/categories/dev-boards.jpg',
+      image: '/images/all-dev-boards.png',
       link: '/products/development-boards',
     },
     {
       id: 2,
       name: 'Sensors',
-      image: '/images/categories/sensors.jpg',
+      image: '/images/all-sensors.jpg',
       link: '/products/sensors',
     },
     {

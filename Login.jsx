@@ -1,39 +1,38 @@
-import React, { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../context/AuthContext'; // Adjusted path to AuthContext
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Assuming you use react-router-dom
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
-  const { setUser } = useContext(AuthContext); // Use AuthContext
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setError('');
 
     // --- Mock Login Logic ---
+    // In a real app, you would call your authentication API here
+    // For demonstration, let's assume some users are admins
     const adminEmail = 'naihritmukherjee05@gmail.com';
     const adminPassword = '123456';
 
     let userData = null;
     if (email === adminEmail && password === adminPassword) {
       userData = { id: 1, name: 'Admin NM', email: adminEmail, role: 'admin' };
-    } else if (email === 'user@example.com' && password === 'userpass') {
+    } else if (email === 'user@example.com' && password === 'userpass') { // Example normal user
       userData = { id: 2, name: 'Normal User', email: 'user@example.com', role: 'user' };
     }
     // --- End Mock Login Logic ---
 
     if (userData) {
-      setUser(userData); // Set user in AuthContext
-      localStorage.setItem('userInfo', JSON.stringify(userData)); // Optionally, keep localStorage sync
+      // Store user data/token as needed (e.g., in localStorage or context)
       console.log('Login successful:', userData);
 
       if (userData.role === 'admin') {
-        navigate('/admin-dashboard');
+        navigate('/admin-dashboard'); // Redirect admin to admin dashboard
       } else {
-        navigate('/'); // Navigate to home/root for normal users
+        navigate('/home'); // Redirect normal user to their home page
       }
     } else {
       setError('Invalid email or password.');

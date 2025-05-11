@@ -22,6 +22,10 @@ const Contact = lazy(() => import('./pages/Contact'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 const Profile = lazy(() => import('./pages/Profile'));
 
+// Import AdminRoute and AdminDashboard
+import AdminRoute from './components/AdminRoute';
+const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'));
+
 function App() {
   return (
     <AuthProvider>
@@ -49,6 +53,8 @@ function App() {
               <Route path="/blog/:slug" element={<BlogPost />} />
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
+              {/* Add Admin Route */}
+              <Route path="/admin-dashboard" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>

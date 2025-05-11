@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { FiArrowRight } from 'react-icons/fi';
 import ProductCard from '../components/product/ProductCard';
 
@@ -8,6 +8,7 @@ import { featuredProducts, latestProducts } from '../data/products';
 
 const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const location = useLocation();
   
   // Hero slider data
   const heroSlides = [

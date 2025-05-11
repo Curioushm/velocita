@@ -1,10 +1,33 @@
 import { Link } from 'react-router-dom';
 import { FiShoppingCart, FiHeart } from 'react-icons/fi';
+import { useSelector, useDispatch } from 'react-redux';
+import { addToCart } from '../../slices/cartSlice';
+import { addToWishlist, removeFromWishlist } from '../../slices/wishlistSlice';
 
 const ProductCard = ({ product }) => {
   const { id, name, price, image, discount, rating, inStock } = product;
+  const dispatch = useDispatch();
+  const wishlistItems = useSelector((state) => state.wishlist?.items || []);
+  const isInWishlist = wishlistItems.some(item => item.id === product.id);
 
   const discountedPrice = discount ? (price - (price * discount / 100)).toFixed(2) : Number(price).toFixed(2);
+
+  const handleAddToCart = () => {
+    if (inStock) {
+      dispatch(addToCart({ product, quantity: 1 }));
+      toast.success('Added to cart successfully!');
+    }
+  };
+
+  const handleWishlistToggle = () => {
+    if (isInWishlist) {
+      dispatch(removeFromWishlist(product.id));
+      toast.success('Removed from wishlist');
+    } else {
+      dispatch(addToWishlist(product));
+      toast.success('Added to wishlist');
+    }
+  };
 
   return (
     <div className="card group">
@@ -68,12 +91,18 @@ const ProductCard = ({ product }) => {
           {/* Action Buttons */}
           <div className="flex space-x-2">
             <button 
-              className="p-1.5 rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors"
-              title="Add to Wishlist"
+              onClick={handleWishlistToggle}
+              className={`p-1.5 rounded-full ${
+                isInWishlist 
+                  ? 'bg-red-100 text-red-500' 
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              } transition-colors`}
+              title={isInWishlist ? "Remove from Wishlist" : "Add to Wishlist"}
             >
-              <FiHeart size={16} />
+              <FiHeart size={16} className={isInWishlist ? 'fill-current' : ''} />
             </button>
             <button 
+              onClick={handleAddToCart}
               className={`p-1.5 rounded-full ${
                 inStock 
                   ? 'bg-primary text-white hover:bg-primary-dark' 

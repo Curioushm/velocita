@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { FiShoppingCart, FiHeart, FiMinus, FiPlus, FiShare2, FiChevronRight } from 'react-icons/fi';
 import ProductCard from '../components/product/ProductCard';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../slices/cartSlice';
+import { toast } from 'react-toastify';
 
 // Mock data - in a real app, this would come from an API
 import { getProductById, getRelatedProducts } from '../data/products';
@@ -14,6 +17,7 @@ const ProductDetail = () => {
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState('description');
   const [activeImage, setActiveImage] = useState(0);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setLoading(true);
@@ -42,9 +46,10 @@ const ProductDetail = () => {
   };
 
   const handleAddToCart = () => {
-    // In a real app, this would dispatch an action to add to cart
-    console.log(`Added ${quantity} of ${product.name} to cart`);
-    // Show success message or redirect to cart
+    if (product && product.inStock) {
+      dispatch(addToCart({ product, quantity }));
+      toast.success('Added to cart successfully!');
+    }
   };
 
   // Generate breadcrumb links

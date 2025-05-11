@@ -1,12 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FiTrash2, FiPlus, FiMinus, FiArrowRight, FiShoppingCart } from 'react-icons/fi';
-
-// Mock data - in a real app, this would come from a state management system like Redux
-
+import { FiTrash2, FiPlus, FiMinus, FiArrowRight, FiShoppingCart, FiArrowLeft } from 'react-icons/fi';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateQuantity, removeFromCart, clearCart, updateCartQuantity } from '../slices/cartSlice';
 
 const Cart = () => {
-  const [cartItems, setCartItems] = useState(initialCartItems);
+  const dispatch = useDispatch();
+  const { items: cartItems } = useSelector((state) => state.cart);
   const [couponCode, setCouponCode] = useState('');
   const [couponApplied, setCouponApplied] = useState(false);
   const [couponDiscount, setCouponDiscount] = useState(0);
@@ -27,19 +27,20 @@ const Cart = () => {
   const total = subtotal + shipping + tax - couponDiscount;
 
   // Update item quantity
-  const updateQuantity = (id, change) => {
-    setCartItems(prevItems => 
-      prevItems.map(item => 
-        item.id === id 
-          ? { ...item, quantity: Math.max(1, item.quantity + change) } 
-          : item
-      )
-    );
+  const handleQuantityChange = (itemId, change) => {
+    const item = cartItems.find(item => item.id === itemId);
+    if (item) {
+      const newQuantity = item.quantity + change;
+      if (newQuantity >= 1 && newQuantity <= (item.countInStock || 10)) {
+        dispatch(updateCartQuantity({ id: itemId, quantity: newQuantity }));
+      }
+    }
   };
 
   // Remove item from cart
-  const removeItem = (id) => {
-    setCartItems(prevItems => prevItems.filter(item => item.id !== id));
+  const handleRemoveItem = (id) => {
+    dispatch(removeFromCart(id));
+    toast.success('Item removed from cart');
   };
 
   // Apply coupon code
@@ -52,10 +53,26 @@ const Cart = () => {
     }
   };
 
+  const handleClearCart = () => {
+    dispatch(clearCart());
+    toast.success('Cart cleared successfully');
+  };
+
   return (
     <div className="bg-gray-50 py-8">
       <div className="container-custom">
-        <h1 className="text-3xl font-bold mb-8">Shopping Cart</h1>
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-3xl font-bold">Shopping Cart</h1>
+          {cartItems.length > 0 && (
+            <button
+              onClick={handleClearCart}
+              className="text-red-500 hover:text-red-600 flex items-center"
+            >
+              <FiTrash2 className="mr-2" />
+              Clear Cart
+            </button>
+          )}
+        </div>
 
         {cartItems.length === 0 ? (
           <div className="bg-white rounded-lg shadow-sm p-8 text-center">
@@ -138,15 +155,17 @@ const Cart = () => {
                         <div className="md:hidden inline-block font-medium mr-2">Quantity:</div>
                         <div className="flex items-center border border-gray-300 rounded-md">
                           <button 
-                            onClick={() => updateQuantity(item.id, -1)}
-                            className="px-2 py-1 text-gray-600 hover:text-primary"
+                            onClick={() => handleQuantityChange(item.id, -1)}
+                            className="px-2 py-1 text-gray-600 hover:text-primary transition-colors"
+                            disabled={item.quantity <= 1}
                           >
                             <FiMinus size={14} />
                           </button>
                           <span className="px-3 py-1 border-l border-r border-gray-300">{item.quantity}</span>
                           <button 
-                            onClick={() => updateQuantity(item.id, 1)}
-                            className="px-2 py-1 text-gray-600 hover:text-primary"
+                            onClick={() => handleQuantityChange(item.id, 1)}
+                            className="px-2 py-1 text-gray-600 hover:text-primary transition-colors"
+                            disabled={item.quantity >= (item.countInStock || 10)}
                           >
                             <FiPlus size={14} />
                           </button>
@@ -159,8 +178,8 @@ const Cart = () => {
                         <div className="flex items-center">
                           <span className="font-medium text-primary">₹{itemSubtotal}</span>
                           <button 
-                            onClick={() => removeItem(item.id)}
-                            className="ml-4 text-gray-400 hover:text-red-500"
+                            onClick={() => handleRemoveItem(item.id)}
+                            className="ml-4 text-gray-400 hover:text-red-500 transition-colors"
                             aria-label="Remove item"
                           >
                             <FiTrash2 size={18} />
@@ -180,7 +199,7 @@ const Cart = () => {
                     Continue Shopping
                   </Link>
                   <button 
-                    onClick={() => setCartItems([])}
+                    onClick={handleClearCart}
                     className="text-gray-600 hover:text-red-500 flex items-center"
                   >
                     <FiTrash2 className="mr-1" />

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <!-- If you had a custom CSS link for a previous notification system, e.g., home_style.css, it can be removed if no longer needed. -->
+    <!-- <link rel="stylesheet" href="home_style.css"> -->
+</head>
+<body>
+    <!-- If you had a div for a previous notification system, it can be removed. -->
+    <!-- <div id="notification" class="notification" style="display: none;"></div> -->
+
+    <h1>Welcome to the Home Page!</h1>
+    <p>This is your main content area on the home page.</p>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const params = new URLSearchParams(window.location.search);
+            // const notificationElement = document.getElementById('notification'); // Old notification element reference removed
+
+            if (params.has('status') && params.get('status') === 'loginsuccess') {
+                // Old notification logic removed
+                Toastify({
+                    text: "Login successful! Welcome.",
+                    duration: 5000,
+                    close: true,
+                    gravity: "top", // `top` or `bottom`
+                    position: "center", // `left`, `center` or `right`
+                    backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
+                    stopOnFocus: true,
+                }).showToast();
+            }
+        });
+    </script>
+</body>
+</html>

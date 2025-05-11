@@ -45,9 +45,21 @@ const Register = () => {
         password,
       });
 
+      // Store registered user in localStorage for mock login
+      const newUser = {
+        id: Date.now(), // Simple unique ID
+        name,
+        email,
+        password, // Storing password in localStorage is for mock purposes only
+        role: 'user',
+      };
+      let users = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+      users.push(newUser);
+      localStorage.setItem('registeredUsers', JSON.stringify(users));
+
       // Successful registration
       setLoading(false);
-      navigate('/login'); // Redirect to login page
+      navigate('/login', { state: { message: 'Registration successful! Please log in.' } }); // Redirect to login page with a success message
     } catch (err) {
       setLoading(false);
       setError(err.response?.data?.message || 'Registration failed. Please try again.');

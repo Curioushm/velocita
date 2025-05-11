@@ -1,8 +1,11 @@
+import React, { useContext } from 'react';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FiSearch, FiShoppingCart, FiUser, FiMenu, FiX, FiHeart, FiPhone, FiMail } from 'react-icons/fi';
+import { AuthContext } from '../../context/AuthContext'; // Adjust path as needed
+import { FiSearch, FiShoppingCart, FiUser, FiLogIn, FiLogOut, FiUserPlus, FiMenu, FiX, FiHeart, FiPhone, FiMail, FiShield } from 'react-icons/fi'; // Added FiUser, FiLogOut, FiUserPlus, FiShield
 
 const Header = () => {
+  const { user, logout } = useContext(AuthContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
@@ -17,6 +20,11 @@ const Header = () => {
       navigate(`/products?search=${encodeURIComponent(searchQuery)}`);
       setSearchQuery('');
     }
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login', { state: { message: 'You have been logged out.' } });
   };
 
   const categories = [
@@ -90,9 +98,40 @@ const Header = () => {
                 0
               </span>
             </Link>
-            <Link to="/login" className="text-gray-700 hover:text-primary">
-              <FiUser size={22} />
-            </Link>
+            {user ? (
+              <>
+                <Link to="/profile" className="flex items-center text-gray-600 hover:text-primary">
+                  {user.role === 'admin' ? (
+                    <FiShield size={22} className="mr-1" title="Admin" />
+                  ) : (
+                    <FiUser size={22} className="mr-1" title="User" />
+                  )}
+                  <span>{user.name || 'Profile'}</span>
+                </Link>
+                {user.role === 'admin' && (
+                  <Link to="/admin-dashboard" className="text-gray-600 hover:text-primary">Admin Dashboard</Link>
+                )}
+                <button
+                  onClick={handleLogout}
+                  className="flex items-center text-gray-600 hover:text-primary"
+                  title="Logout"
+                >
+                  <FiLogOut size={22} className="mr-1" />
+                  <span>Logout</span>
+                </button>
+              </>
+            ) : (
+              <>
+                <Link to="/login" className="flex items-center text-gray-600 hover:text-primary">
+                  <FiLogIn size={22} className="mr-1" />
+                  <span>Login</span>
+                </Link>
+                <Link to="/register" className="flex items-center text-gray-600 hover:text-primary">
+                  <FiUserPlus size={22} className="mr-1" />
+                  <span>Register</span>
+                </Link>
+              </>
+            )}
             <button
               className="md:hidden text-gray-700 hover:text-primary"
               onClick={toggleMenu}

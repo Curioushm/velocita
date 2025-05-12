@@ -1,19 +1,49 @@
 import { Box } from "@chakra-ui/react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import EmptyWishlist from "../components/EmptyWishlist";
 import WishlistItem from "../components/WishlistItem";
+// Fix import path
+import { removeFromWishlist, clearWishlist } from '../store/wishlistSlice';
+import { toast } from 'react-toastify';
 
 const Wishlist = () => {
-  const wishlist = useSelector((state) => state.wishlist.items);
+  const dispatch = useDispatch();
+  // Add null check and default empty array
+  const wishlistItems = useSelector((state) => state?.wishlist?.items || []);
 
-  if (wishlist.length === 0) {
+  const handleRemoveFromWishlist = (id) => {
+    dispatch(removeFromWishlist(id));
+    toast.success('Item removed from wishlist');
+  };
+
+  const handleClearWishlist = () => {
+    dispatch(clearWishlist());
+    toast.success('Wishlist cleared');
+  };
+
+  if (wishlistItems.length === 0) {
     return <EmptyWishlist />;
   }
 
   return (
     <Box p={4}>
-      {wishlist.map((item) => (
-        <WishlistItem key={item.id} item={item} />
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-2xl font-bold">My Wishlist ({wishlistItems.length})</h1>
+        {wishlistItems.length > 0 && (
+          <button
+            onClick={handleClearWishlist}
+            className="text-red-500 hover:text-red-600"
+          >
+            Clear Wishlist
+          </button>
+        )}
+      </div>
+      {wishlistItems.map((item) => (
+        <WishlistItem 
+          key={item.id} 
+          item={item} 
+          onRemove={() => handleRemoveFromWishlist(item.id)}
+        />
       ))}
     </Box>
   );

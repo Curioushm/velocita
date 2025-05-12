@@ -2,9 +2,10 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { FiShoppingCart, FiHeart, FiMinus, FiPlus, FiShare2, FiChevronRight } from 'react-icons/fi';
 import ProductCard from '../components/product/ProductCard';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../slices/cartSlice';
 import { toast } from 'react-toastify';
+import { addToWishlist, removeFromWishlist } from '../slices/wishlistSlice';
 
 // Mock data - in a real app, this would come from an API
 import { getProductById, getRelatedProducts } from '../data/products';
@@ -18,6 +19,8 @@ const ProductDetail = () => {
   const [activeTab, setActiveTab] = useState('description');
   const [activeImage, setActiveImage] = useState(0);
   const dispatch = useDispatch();
+  const wishlistItems = useSelector((state) => state?.wishlist?.items || []);
+  const isInWishlist = wishlistItems.some(item => item.id === parseInt(id));
 
   useEffect(() => {
     setLoading(true);
@@ -49,6 +52,16 @@ const ProductDetail = () => {
     if (product && product.inStock) {
       dispatch(addToCart({ product, quantity }));
       toast.success('Added to cart successfully!');
+    }
+  };
+
+  const handleWishlistToggle = () => {
+    if (isInWishlist) {
+      dispatch(removeFromWishlist(product.id));
+      toast.success('Removed from wishlist');
+    } else {
+      dispatch(addToWishlist(product));
+      toast.success('Added to wishlist');
     }
   };
 
@@ -221,9 +234,12 @@ const ProductDetail = () => {
                   <FiShoppingCart className="mr-2" />
                   Add to Cart
                 </button>
-                <button className="btn-outline flex-1 flex items-center justify-center">
-                  <FiHeart className="mr-2" />
-                  Add to Wishlist
+                <button 
+                  onClick={handleWishlistToggle}
+                  className="btn-outline flex-1 flex items-center justify-center"
+                >
+                  <FiHeart className={`mr-2 ${isInWishlist ? 'fill-current' : ''}`} />
+                  {isInWishlist ? 'Remove from Wishlist' : 'Add to Wishlist'}
                 </button>
               </div>
               

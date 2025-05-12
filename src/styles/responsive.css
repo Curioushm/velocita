@@ -1,0 +1,130 @@
+/* Global responsive styles */
+:root {
+  --container-width: 95%;
+  --header-height: 60px;
+}
+
+/* Base styles for mobile first approach */
+.container {
+  width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+/* Small devices (phones, 576px and up) */
+@media (max-width: 576px) {
+  .product-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .header {
+    padding: 0.5rem;
+  }
+
+  .nav-menu {
+    flex-direction: column;
+  }
+
+  .cart-modal,
+  .wishlist-modal {
+    width: 95%;
+  }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .cart-modal,
+  .wishlist-modal {
+    width: 80%;
+  }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  .product-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  .cart-modal,
+  .wishlist-modal {
+    width: 60%;
+  }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  .product-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Responsive typography */
+@media (max-width: 768px) {
+  html {
+    font-size: 14px;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+}
+
+/* Responsive images */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Responsive forms */
+@media (max-width: 576px) {
+  input,
+  select,
+  textarea {
+    width: 100%;
+  }
+
+  .form-group {
+    margin-bottom: 1rem;
+  }
+}
+
+/* Responsive navigation */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
+
+  .mobile-menu {
+    display: block;
+  }
+}
+
+/* Responsive tables */
+@media (max-width: 768px) {
+  table {
+    display: block;
+    overflow-x: auto;
+  }
+}
+
+/* Flexible spacing */
+@media (max-width: 576px) {
+  .section {
+    padding: 2rem 0;
+  }
+
+  .container {
+    padding: 0 1rem;
+  }
+}

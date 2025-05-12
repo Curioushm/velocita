@@ -3,11 +3,12 @@ import { FiShoppingCart, FiHeart } from 'react-icons/fi';
 import { useSelector, useDispatch } from 'react-redux';
 import { addToCart } from '../../slices/cartSlice';
 import { addToWishlist, removeFromWishlist } from '../../slices/wishlistSlice';
+import { toast } from 'react-toastify';
 
 const ProductCard = ({ product }) => {
   const { id, name, price, image, discount, rating, inStock } = product;
   const dispatch = useDispatch();
-  const wishlistItems = useSelector((state) => state.wishlist?.items || []);
+  const wishlistItems = useSelector((state) => state.wishlist.items);
   const isInWishlist = wishlistItems.some(item => item.id === product.id);
 
   const discountedPrice = discount ? (price - (price * discount / 100)).toFixed(2) : Number(price).toFixed(2);
@@ -24,34 +25,33 @@ const ProductCard = ({ product }) => {
       dispatch(removeFromWishlist(product.id));
       toast.success('Removed from wishlist');
     } else {
-      dispatch(addToWishlist(product));
+      dispatch(addToWishlist({ product }));
       toast.success('Added to wishlist');
     }
   };
 
   return (
-    <div className="card group">
-      {/* Product Image */}
-      <Link to={`/product/${id}`} className="block relative overflow-hidden">
+    <div className="card group bg-white hover:shadow-xl transition-shadow">
+      <Link to={`/product/${id}`} className="block relative overflow-hidden pt-[100%]">
+        {/* Product badges */}
         {discount > 0 && (
-          <div className="absolute top-2 left-2 bg-secondary text-white text-xs font-bold px-2 py-1 rounded z-10">
+          <div className="absolute top-3 left-3 bg-secondary text-white text-xs font-bold px-2.5 py-1.5 rounded-full z-10">
             {discount}% OFF
           </div>
         )}
         {!inStock && (
-          <div className="absolute top-2 right-2 bg-gray-700 text-white text-xs font-bold px-2 py-1 rounded z-10">
+          <div className="absolute top-3 right-3 bg-gray-700 text-white text-xs font-bold px-2.5 py-1.5 rounded-full z-10">
             Out of Stock
           </div>
         )}
         <img 
           src={image} 
           alt={name} 
-          className="w-full h-48 object-contain p-4 transition-transform duration-300 group-hover:scale-105"
+          className="absolute inset-0 w-full h-full object-contain p-6 transition-transform duration-300 group-hover:scale-105"
         />
       </Link>
 
-      {/* Product Info */}
-      <div className="p-4">
+      <div className="p-4 md:p-5">
         <Link to={`/product/${id}`} className="block">
           <h3 className="text-gray-800 font-medium text-sm mb-1 line-clamp-2 h-10 hover:text-primary transition-colors">
             {name}
@@ -92,11 +92,11 @@ const ProductCard = ({ product }) => {
           <div className="flex space-x-2">
             <button 
               onClick={handleWishlistToggle}
-              className={`p-1.5 rounded-full ${
+              className={`p-1.5 rounded-full transition-colors ${
                 isInWishlist 
-                  ? 'bg-red-100 text-red-500' 
+                  ? 'bg-red-100 text-red-500 hover:bg-red-200' 
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              } transition-colors`}
+              }`}
               title={isInWishlist ? "Remove from Wishlist" : "Add to Wishlist"}
             >
               <FiHeart size={16} className={isInWishlist ? 'fill-current' : ''} />

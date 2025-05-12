@@ -279,11 +279,27 @@ const Cart = () => {
                 
                 <div className="mt-6">
                   <h3 className="font-medium mb-2">We Accept</h3>
-                  <div className="flex space-x-2">
-                    <div className="w-10 h-6 bg-gray-200 rounded"></div>
-                    <div className="w-10 h-6 bg-gray-200 rounded"></div>
-                    <div className="w-10 h-6 bg-gray-200 rounded"></div>
-                    <div className="w-10 h-6 bg-gray-200 rounded"></div>
+                  <div className="flex space-x-3">
+                    <img 
+                      src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png"
+                      alt="Visa" 
+                      className="h-8 object-contain"
+                    />
+                    <img 
+                      src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/MasterCard_Logo.svg/2560px-MasterCard_Logo.svg.png"
+                      alt="Mastercard" 
+                      className="h-8 object-contain"
+                    />
+                    <img 
+                      src="C:\Users\naihr\Downloads\ve\client\public\images\gpay.png"
+                      alt="Google Pay" 
+                      className="h-8 object-contain"
+                    />
+                    <img 
+                      src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Paytm_Logo_%28standalone%29.svg/2560px-Paytm_Logo_%28standalone%29.svg.png"
+                      alt="Paytm" 
+                      className="h-8 object-contain"
+                    />
                   </div>
                 </div>
               </div>

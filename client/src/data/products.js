@@ -9,11 +9,41 @@ export const featuredProducts = [
     id: 1,
     name: "Arduino Uno R3 Development Board",
     price: 399.00,
-    image: "/images/arduino.jpg", // Updated path
+    image: "/images/arduino.jpg",
     category: "development-boards",
     rating: 4.8,
     discount: 10,
     inStock: true,
+    description: {
+      short: "Professional-grade Arduino Uno R3 board with ATmega328P microcontroller",
+      long: "The Arduino Uno R3 is a microcontroller board based on the ATmega328P. It has 14 digital input/output pins, 6 analog inputs, a 16 MHz ceramic resonator, a USB connection, a power jack, an ICSP header and a reset button. It contains everything needed to support the microcontroller.",
+      features: [
+        "ATmega328P microcontroller",
+        "Operating Voltage: 5V",
+        "Input Voltage: 7-12V",
+        "14 Digital I/O Pins",
+        "6 Analog Inputs",
+        "32k Flash Memory"
+      ]
+    },
+    specifications: {
+      dimensions: "68.6 x 53.4 mm",
+      weight: "25g",
+      microcontroller: "ATmega328P",
+      operatingVoltage: "5V",
+      inputVoltage: "7-12V",
+      digitalPins: 14,
+      analogPins: 6,
+      flashMemory: "32 KB",
+      sram: "2 KB",
+      eeprom: "1 KB",
+      clockSpeed: "16 MHz"
+    },
+    includes: [
+      "Arduino Uno R3 Board",
+      "USB Cable",
+      "Quick Start Guide"
+    ]
   },
   {
     id: 2,

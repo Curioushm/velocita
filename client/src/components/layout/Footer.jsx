@@ -98,7 +98,7 @@ const Footer = () => {
               <li className="flex items-center">
                 <FiPhone className="mr-3 text-secondary" />
                 <a href="tel:+917478186693" className="text-gray-300 hover:text-primary">
-                  +91 74781 86693
+                  +91 74781 86693/+91 76859 969239
                 </a>
               </li>
               <li className="flex items-center">
@@ -132,13 +132,6 @@ const Footer = () => {
             <p className="text-gray-400 text-sm">
               &copy; {new Date().getFullYear()} VELOCITA ELECTRONICS. All rights reserved.
             </p>
-            <div className="mt-4 md:mt-0">
-              <img
-                src="/payment-methods.png"
-                alt="Payment Methods"
-                className="h-8"
-              />
-            </div>
           </div>
         </div>
       </div>

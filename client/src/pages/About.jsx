@@ -8,7 +8,7 @@ const teamMembers = [
   { name: 'Sohom Das', role: 'Founder & Chief Executive Officer', image: '/images/team/sohom.jpg' },
   { name: 'Naihrit Mukherjee', role: 'Chief Technical Officer', image: '/images/team/naihrit.jpg' },
   { name: 'Rajdeep Majumder', role: 'Marketing and Communication Head', image: '/images/team/rajdeep.jpg' },
-  { name: 'Krishnendu Ghosh', role: 'System Analyser', image: '/images/team/krishnendu.jpg' },
+  { name: 'Krishnendu Das', role: 'System Analyser', image: '/images/team/krishnendu.jpg' },
 ];
 
 // Placeholder core values data

@@ -1,14 +1,21 @@
 import { Navigate, Outlet } from 'react-router-dom';
-// import { useSelector } from 'react-redux'; // Remove Redux import
-import { useContext } from 'react'; // Import useContext
-import { AuthContext } from '../context/AuthContext'; // Import AuthContext
+import { useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
+import Loader from './common/Loader';
 
 const AdminRoute = () => {
-  // const { userInfo } = useSelector((state) => state.auth); // Remove Redux logic
-  const { user } = useContext(AuthContext); // Use AuthContext
+  const { user, loading } = useContext(AuthContext);
 
-  // Check if user exists and has the 'admin' role
-  return user && user.role === 'admin' ? <Outlet /> : <Navigate to="/login" />;
+  if (loading) {
+    return <Loader />;
+  }
+
+  // Check if user exists and is an admin
+  if (!user || user.role !== 'admin') {
+    return <Navigate to="/login" replace />;
+  }
+
+  return <Outlet />;
 };
 
 export default AdminRoute;

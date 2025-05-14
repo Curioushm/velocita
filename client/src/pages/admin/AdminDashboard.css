@@ -1,124 +1,46 @@
-.admin-dashboard-container { /* Corrected: removed 'is' prefix */
+.admin-dashboard-container {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #1A1A1A; /* Black for text */
-  padding: 20px;
-  background-color: #F0EBE3; /* Light Beige/Cream background */
+  color: #1A1A1A;
+  padding: 2rem;
+  background: #f8f9fc;
   min-height: 100vh;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.container-fluid {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 15px;
 }
 
 .admin-active-status {
   text-align: center;
   color: red;
   font-weight: bold;
-  font-size: 1.2em; /* Made it slightly larger */
-  padding: 10px 0; /* Added some padding */
-  margin-bottom: 15px; /* Space before the header */
-  font-family: 'Georgia', 'Times New Roman', Times, serif; /* More "official" serif font */
+  font-size: 1.2em;
+  padding: 10px 0;
+  margin-bottom: 15px;
+  font-family: 'Georgia', 'Times New Roman', Times, serif;
 }
 
 .dashboard-header {
-  background-color: #1A1A1A; /* Black background */
-  color: #FAF6F0; /* Off-white/Cream text */
+  background-color: #1A1A1A;
+  color: #FAF6F0;
   padding: 25px 20px;
   text-align: center;
   border-radius: 8px;
-  margin-bottom: 30px;
+  margin-bottom: 2rem;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
 }
 
 .dashboard-header h1 {
   margin: 0;
-  font-size: 2.2em;
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
   font-weight: 600;
+  color: #2d3748;
 }
 
 .dashboard-main h2 {
-  color: #1A1A1A; /* Black text */
-  border-bottom: 2px solid #A0937D; /* Dark Beige/Brownish border */
-  padding-bottom: 10px;
-  margin-bottom: 25px;
-  font-size: 1.8em;
-}
-
-.orders-table-container {
-  background-color: #FAF6F0; /* Off-white/Cream background for table container */
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  overflow-x: auto; /* For responsiveness on smaller screens */
-  transition: box-shadow 0.3s ease-in-out;
-}
-
-.orders-table-container:hover {
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-}
-
-.orders-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.orders-table th,
-.orders-table td {
-  padding: 15px;
-  text-align: left;
-  border-bottom: 1px solid #D4C8B6; /* Medium Beige border */
-}
-
-.orders-table th {
-  background-color: #1A1A1A; /* Black background for headers */
-  color: #F0EBE3; /* Light Beige/Cream text */
-  font-weight: bold;
-  text-transform: uppercase;
-  font-size: 0.9em;
-  letter-spacing: 0.5px;
-}
-
-.orders-table tbody tr {
-  transition: background-color 0.3s ease-in-out;
-}
-
-.orders-table tbody tr:nth-child(even) {
-  background-color: #E8E0D1; /* Slightly darker Beige for even rows */
-}
-
-.orders-table tbody tr:hover {
-  background-color: #D4C8B6; /* Medium Beige on hover */
-}
-
-.status-badge {
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 0.8em;
-  color: #FAF6F0; /* Off-white/Cream text */
-  text-transform: capitalize;
-  font-weight: 500;
-  min-width: 80px;
-  text-align: center;
-  display: inline-block;
-}
-
-/* Adjusted status badge colors for the new theme */
-.status-processing {
-  background-color: #c7a17a; /* Muted Gold/Beige */
-}
-
-.status-shipped {
-  background-color: #8a795d; /* Darker Muted Beige/Brown */
-}
-
-.status-delivered {
-  background-color: #5e503f; /* Dark Brown */
-}
-
-.status-cancelled {
-  background-color: #78290f; /* Muted Red/Brown */
-  color: #F0EBE3;
-}
-
-.real-time-note {
-  margin-top: 25px;
-  font-style: italic;
-  color: #555; /* Darker gray for readability */
-  text-align: center;
-  font-size: 0.9em;
-}
+  color: #1A}

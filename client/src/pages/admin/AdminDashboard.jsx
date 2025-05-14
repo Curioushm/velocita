@@ -1,87 +1,176 @@
-import React, { useState, useEffect } from 'react';
-import './AdminDashboard.css'; // Assumes AdminDashboard.css is in the same directory
+import React from 'react';
+import { LinkContainer } from 'react-router-bootstrap';
+import { Table, Button, Row, Col, Card } from 'react-bootstrap';
+import { FaTimes, FaCheck, FaEdit, FaUsers, FaShoppingCart, FaRupeeSign, FaBox } from 'react-icons/fa';
+import Message from '../../components/Message';
+import Loader from '../../components/Loader';
+import Paginate from '../../components/Paginate';
+import { useGetOrdersQuery } from '../../slices/orderApiSlice';
+import { useGetUsersQuery } from '../../slices/usersApiSlice';
+import { useGetProductsQuery } from '../../slices/productsApiSlice';
+import { useParams } from 'react-router-dom';
+import './AdminDashboard.css';
 
-// Mock function to simulate fetching orders
-const fetchOrders = () => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve([
-        { id: 'ORD001', userName: 'Alice Smith', item: 'Laptop Pro', quantity: 1, total: 1200, status: 'Processing', timestamp: new Date(Date.now() - 3600000).toLocaleString() },
-        { id: 'ORD002', userName: 'Bob Johnson', item: 'Wireless Mouse', quantity: 2, total: 50, status: 'Shipped', timestamp: new Date(Date.now() - 7200000).toLocaleString() },
-        { id: 'ORD003', userName: 'Carol White', item: 'Keyboard RGB', quantity: 1, total: 75, status: 'Delivered', timestamp: new Date(Date.now() - 10800000).toLocaleString() },
-        { id: 'ORD004', userName: 'David Green', item: 'Monitor 27"', quantity: 1, total: 300, status: 'Processing', timestamp: new Date(Date.now() - 120000).toLocaleString() },
-      ]);
-    }, 1000);
-  });
+export const OrderList = () => {
+  const { pageNumber = 1 } = useParams();
+  const { data, isLoading, error } = useGetOrdersQuery({ pageNumber });
+
+  return (
+    <>
+      <h1>Orders</h1>
+      {isLoading ? (
+        <Loader />
+      ) : error ? (
+        <Message variant="danger">{error?.data?.message || error.error}</Message>
+      ) : !data || !data.orders ? (
+        <Message variant="info">No orders found.</Message>
+      ) : (
+        <>
+          <Table striped bordered hover responsive className="table-sm">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>USER</th>
+                <th>DATE</th>
+                <th>TOTAL</th>
+                <th>PAID</th>
+                <th>DELIVERED</th>
+                <th>STATUS</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.orders.map((order) => (
+                <tr key={order._id}>
+                  <td>{order._id}</td>
+                  <td>{order.user && order.user.name}</td>
+                  <td>{order.createdAt.substring(0, 10)}</td>
+                  <td>₹{order.totalPrice.toFixed(2)}</td>
+                  <td>{order.isPaid ? <FaCheck style={{ color: 'green' }} /> : <FaTimes style={{ color: 'red' }} />}</td>
+                  <td>{order.isDelivered ? <FaCheck style={{ color: 'green' }} /> : <FaTimes style={{ color: 'red' }} />}</td>
+                  <td>{order.status}</td>
+                  <td>
+                    <LinkContainer to={`/order/${order._id}`}>
+                      <Button variant="light" className="btn-sm">Details</Button>
+                    </LinkContainer>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+          <Paginate pages={data.pages} page={data.page} isAdmin={true} listType="orderlist" />
+        </>
+      )}
+    </>
+  );
 };
 
-function AdminDashboard() {
-  const [orders, setOrders] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+const AdminDashboard = () => {
+  const { data: orders, isLoading: ordersLoading, error: ordersError } = useGetOrdersQuery({});
+  const { data: users, isLoading: usersLoading, error: usersError } = useGetUsersQuery();
+  const { data: products, isLoading: productsLoading, error: productsError } = useGetProductsQuery({});
 
-  useEffect(() => {
-    setIsLoading(true);
-    fetchOrders().then(data => {
-      setOrders(data);
-      setIsLoading(false);
-    });
+  const totalSales = orders?.orders?.reduce((acc, order) => acc + order.totalPrice, 0) || 0;
 
-    // For actual real-time updates, you'd use WebSockets or long polling here.
-    // Example:
-    // const interval = setInterval(() => {
-    //   fetchOrders().then(data => setOrders(data));
-    // }, 5000); // Fetch new orders every 5 seconds
-    // return () => clearInterval(interval);
-  }, []);
+  if (ordersLoading || usersLoading || productsLoading) return <Loader />;
+
+  if (ordersError || usersError || productsError) {
+    return <Message variant="danger">Error loading dashboard data.</Message>;
+  }
+
+  const stats = [
+    {
+      title: 'Total Users',
+      value: users?.length || 0,
+      icon: <FaUsers className="dashboard-icon" size={40} />,
+      color: 'primary',
+      gradient: 'linear-gradient(45deg, #4158D0, #C850C0)'
+    },
+    {
+      title: 'Total Orders',
+      value: orders?.orders?.length || 0,
+      icon: <FaShoppingCart className="dashboard-icon" size={40} />,
+      color: 'success',
+      gradient: 'linear-gradient(45deg, #00C853, #B2FF59)'
+    },
+    {
+      title: 'Total Sales',
+      value: `₹${totalSales.toFixed(2)}`,
+      icon: <FaRupeeSign className="dashboard-icon" size={40} />,
+      color: 'warning',
+      gradient: 'linear-gradient(45deg, #FFB300, #FFE57F)'
+    },
+    {
+      title: 'Total Products',
+      value: products?.products?.length || 0,
+      icon: <FaBox className="dashboard-icon" size={40} />,
+      color: 'info',
+      gradient: 'linear-gradient(45deg, #2196F3, #00BCD4)'
+    }
+  ];
 
   return (
     <div className="admin-dashboard-container">
-      <div className="admin-active-status">Admin NM is active</div>
-      <header className="dashboard-header">
-        <h1>Admin Dashboard</h1>
-      </header>
-      <main className="dashboard-main">
-        <h2>Real-time Placed Orders</h2>
-        {isLoading ? (
-          <p>Loading orders...</p>
-        ) : orders.length === 0 ? (
-          <p>No orders placed yet.</p>
-        ) : (
-          <div className="orders-table-container">
-            <table className="orders-table">
-              <thead>
-                <tr>
-                  <th>Order ID</th>
-                  <th>User Name</th>
-                  <th>Item</th>
-                  <th>Quantity</th>
-                  <th>Total ($)</th>
-                  <th>Status</th>
-                  <th>Timestamp</th>
-                </tr>
-              </thead>
-              <tbody>
-                {orders.map(order => (
-                  <tr key={order.id}>
-                    <td>{order.id}</td>
-                    <td>{order.userName}</td>
-                    <td>{order.item}</td>
-                    <td>{order.quantity}</td>
-                    <td>{order.total.toFixed(2)}</td>
-                    <td><span className={`status-badge status-${order.status.toLowerCase()}`}>{order.status}</span></td>
-                    <td>{order.timestamp}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-        <p className="real-time-note">
-          <em>Note: Order data is currently mocked. Implement WebSockets or polling for true real-time updates.</em>
-        </p>
-      </main>
+      <h1 className="dashboard-title">Admin Dashboard</h1>
+      <Row>
+        {stats.map((stat, index) => (
+          <Col key={index} sm={12} md={6} lg={3} className="mb-4">
+            <Card 
+              className="dashboard-card"
+              style={{ background: stat.gradient }}
+            >
+              <Card.Body>
+                <div className="d-flex justify-content-between align-items-center">
+                  <div className="stat-content">
+                    <Card.Title className="stat-title">{stat.title}</Card.Title>
+                    <h2 className="stat-value">{stat.value}</h2>
+                  </div>
+                  <div className="stat-icon">
+                    {stat.icon}
+                  </div>
+                </div>
+              </Card.Body>
+            </Card>
+          </Col>
+        ))}
+      </Row>
+
+      <div className="recent-orders-section">
+        <h2 className="section-title">Recent Orders</h2>
+        <div className="orders-grid">
+          {orders?.orders?.slice(0, 5).map((order) => (
+            <Card key={order._id} className="order-card">
+              <Card.Body>
+                <Row>
+                  <Col md={3} className="order-detail">
+                    <span className="detail-label">Order ID:</span>
+                    <span className="detail-value">{order._id}</span>
+                  </Col>
+                  <Col md={3} className="order-detail">
+                    <span className="detail-label">Date:</span>
+                    <span className="detail-value">
+                      {new Date(order.createdAt).toLocaleDateString()}
+                    </span>
+                  </Col>
+                  <Col md={3} className="order-detail">
+                    <span className="detail-label">Total:</span>
+                    <span className="detail-value">₹{order.totalPrice.toFixed(2)}</span>
+                  </Col>
+                  <Col md={3} className="order-detail">
+                    <span className="detail-label">Status:</span>
+                    <span className={`status-badge status-${order.status.toLowerCase()}`}>
+                      {order.status}
+                    </span>
+                  </Col>
+                </Row>
+              </Card.Body>
+            </Card>
+          ))}
+        </div>
+      </div>
     </div>
   );
-}
+};
 
+export { AdminDashboard, OrderList };
 export default AdminDashboard;

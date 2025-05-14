@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 
 // Layout Components
@@ -26,6 +26,9 @@ const Wishlist = lazy(() => import('./pages/Wishlist'));
 // Import AdminRoute and AdminDashboard
 import AdminRoute from './components/AdminRoute';
 const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'));
+const AdminLayout = lazy(() => import('./components/layout/AdminLayout'));
+const OrderList = lazy(() => import('./pages/admin/AdminDashboard')
+  .then(module => ({ default: module.OrderList })));
 
 function App() {
   return (
@@ -55,8 +58,14 @@ function App() {
               <Route path="/blog/:slug" element={<BlogPost />} />
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
-              {/* Add Admin Route */}
-              <Route path="/admin-dashboard" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
+              <Route path="/admin" element={<AdminRoute />}>
+                <Route element={<AdminLayout />}>
+                  <Route index element={<Navigate to="/admin/dashboard" replace />} />
+                  <Route path="dashboard" element={<AdminDashboard />} />
+                  <Route path="orders" element={<OrderList />} />
+                  <Route path="orders/page/:pageNumber" element={<OrderList />} />
+                </Route>
+              </Route>
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>

@@ -16,28 +16,28 @@ const Home = () => {
       id: 1,
       title: 'Next-Gen Development Boards',
       description: 'Build your dream projects with our premium development boards',
-      image: '/images/hero/hero-1.jpg',
+      image: '/images/nextgen.png', // Update to an existing image
       cta: 'Shop Development Boards',
       link: '/products/development-boards',
       bgColor: 'bg-blue-100',
     },
     {
       id: 2,
-      title: 'Premium Sensor Collection',
-      description: 'High-precision sensors for all your IoT and robotics projects',
-      image: '/images/hero/hero-2.jpg',
-      cta: 'Explore Sensors',
-      link: '/products/sensors',
-      bgColor: 'bg-green-100',
+      title: 'DIY Electronics Kits',
+      description: 'Start your electronics journey with our beginner-friendly DIY project kits',
+      image: '/images/diykit.png', // Update to an existing image
+      cta: 'Explore DIY Kits',
+      link: '/products/diy-kits',
+      bgColor: 'bg-yellow-100',
     },
     {
       id: 3,
-      title: 'Power Solutions',
-      description: 'Reliable power components for your electronic projects',
-      image: '/images/hero/hero-3.jpg',
-      cta: 'View Power Solutions',
-      link: '/products/power',
-      bgColor: 'bg-orange-100',
+      title: 'Project Guidance',
+      description: 'Complete step-by-step tutorials and project kits with expert support',
+      image: '/images/projectguidance.png', // Update to an existing image
+      cta: 'View Projects',
+      link: '/blog/projects',
+      bgColor: 'bg-teal-100',
     },
   ];
 

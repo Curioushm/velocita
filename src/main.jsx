@@ -5,14 +5,12 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import App from './App';
 import store from './store';
 
-const routes = [
+const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
-  },
-];
-
-const router = createBrowserRouter(routes, {
+  }
+], {
   future: {
     v7_startTransition: true,
     v7_relativeSplatPath: true

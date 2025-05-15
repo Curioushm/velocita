@@ -3,7 +3,7 @@ import { FaBox, FaCheck, FaRupeeSign, FaShoppingCart, FaTimes, FaUsers } from 'r
 import { LinkContainer } from 'react-router-bootstrap';
 import { useParams } from 'react-router-dom';
 import Loader from '../../components/common/Loader';
-import Message from '../../components/common/message';
+import Message from '../../components/common/Message';
 import Paginate from '../../components/Paginate';
 import { useGetOrdersQuery } from '../../slices/orderApiSlice';
 import { useGetProductsQuery } from '../../slices/productApiSlice';

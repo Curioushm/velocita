@@ -1,17 +1,16 @@
-import React from 'react';
+import { Button, Card, Col, Row, Table } from 'react-bootstrap';
+import { FaBox, FaCheck, FaRupeeSign, FaShoppingCart, FaTimes, FaUsers } from 'react-icons/fa';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Table, Button, Row, Col, Card } from 'react-bootstrap';
-import { FaTimes, FaCheck, FaEdit, FaUsers, FaShoppingCart, FaRupeeSign, FaBox } from 'react-icons/fa';
-import Message from '../../components/Message';
-import Loader from '../../components/Loader';
+import { useParams } from 'react-router-dom';
+import Loader from '../../components/common/Loader';
+import Message from '../../components/common/message';
 import Paginate from '../../components/Paginate';
 import { useGetOrdersQuery } from '../../slices/orderApiSlice';
-import { useGetUsersQuery } from '../../slices/usersApiSlice';
-import { useGetProductsQuery } from '../../slices/productsApiSlice';
-import { useParams } from 'react-router-dom';
+import { useGetProductsQuery } from '../../slices/productApiSlice';
+import { useGetUsersQuery } from '../../slices/userApiSlice';
 import './AdminDashboard.css';
 
-export const OrderList = () => {
+const OrderList = () => {
   const { pageNumber = 1 } = useParams();
   const { data, isLoading, error } = useGetOrdersQuery({ pageNumber });
 

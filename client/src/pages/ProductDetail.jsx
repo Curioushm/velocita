@@ -198,8 +198,7 @@ const ProductDetail = () => {
               
               {/* Short description */}
               <p className="text-gray-600 mb-6">
-                High-quality electronic component perfect for your DIY projects and professional applications.
-                Manufactured with precision to ensure reliability and performance.
+                {product.description.long}
               </p>
               
               {/* Quantity selector */}

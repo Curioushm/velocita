@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import { FiFilter, FiX, FiChevronDown, FiChevronUp } from 'react-icons/fi';
 import ProductCard from '../components/product/ProductCard';
@@ -12,12 +12,31 @@ const Products = () => {
   const searchParams = new URLSearchParams(location.search);
   const searchQuery = searchParams.get('search');
 
+  // --- NEW: Get all products and compute max price ---
+  const allProductList = useMemo(() => allProducts.map(p => ({
+    ...p,
+    // Normalize price to number (strip ₹ and parse)
+    price: typeof p.price === 'string' ? Number(String(p.price).replace(/[^\d.]/g, '')) : p.price,
+    brand: p.brand || 'Unknown'
+  })), []);
+
+  const maxProductPrice = useMemo(() => {
+    return Math.max(...allProductList.map(p => {
+      const price = p.discount ? p.price - (p.price * p.discount / 100) : p.price;
+      return price;
+    }));
+  }, [allProductList]);
+
+  // --- END NEW ---
+
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [priceRange, setPriceRange] = useState([0, 100]);
+  // --- CHANGE: Set initial price range based on max price ---
+  const [priceRange, setPriceRange] = useState([0, maxProductPrice]);
   const [selectedBrands, setSelectedBrands] = useState([]);
+  const [selectedRatings, setSelectedRatings] = useState([]); // NEW: for rating filter
   const [sortBy, setSortBy] = useState('featured');
   const [expandedFilters, setExpandedFilters] = useState({
     price: true,
@@ -25,46 +44,63 @@ const Products = () => {
     rating: true,
   });
 
-  // Get all available brands from products
-  const allBrands = [...new Set(allProducts.map(product => product.brand || 'Unknown'))];
+  // --- CHANGE: Get all available brands from normalized products ---
+  const allBrands = useMemo(
+    () => [...new Set(allProductList.map(product => product.brand || 'Unknown'))],
+    [allProductList]
+  );
 
-  // Filter and sort products based on selected filters
+  // --- Filter and sort products based on selected filters ---
   useEffect(() => {
     setLoading(true);
-    
-    // Get initial products based on category or search
+
+    // --- CHANGE: Use normalized products ---
     let initialProducts = [];
-    
+
     if (category) {
-      initialProducts = getProductsByCategory(category);
+      initialProducts = allProductList.filter(
+        p => p.category === category
+      );
     } else if (searchQuery) {
-      initialProducts = allProducts.filter(product => 
+      initialProducts = allProductList.filter(product =>
         product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (product.description && product.description.toLowerCase().includes(searchQuery.toLowerCase()))
+        (product.description && (
+          (typeof product.description === 'string'
+            ? product.description
+            : product.description.short || '') // handle both string and object
+              .toLowerCase()
+              .includes(searchQuery.toLowerCase())
+        ))
       );
     } else {
-      initialProducts = [...allProducts];
+      initialProducts = [...allProductList];
     }
-    
+
     setProducts(initialProducts);
-    
-    // Apply filters
+
     let result = [...initialProducts];
-    
-    // Filter by price range
+
+    // --- Filter by price range ---
     result = result.filter(product => {
-      const price = product.discount 
-        ? product.price - (product.price * product.discount / 100) 
+      const price = product.discount
+        ? product.price - (product.price * product.discount / 100)
         : product.price;
       return price >= priceRange[0] && price <= priceRange[1];
     });
-    
-    // Filter by selected brands
+
+    // --- Filter by selected brands ---
     if (selectedBrands.length > 0) {
       result = result.filter(product => selectedBrands.includes(product.brand));
     }
-    
-    // Sort products
+
+    // --- Filter by selected ratings ---
+    if (selectedRatings.length > 0) {
+      result = result.filter(product =>
+        selectedRatings.some(rating => Math.floor(product.rating) >= rating)
+      );
+    }
+
+    // --- Sort products ---
     switch (sortBy) {
       case 'price-asc':
         result.sort((a, b) => {
@@ -86,21 +122,21 @@ const Products = () => {
       case 'rating':
         result.sort((a, b) => b.rating - a.rating);
         break;
-      default: // 'featured'
+      default:
         // Keep original order
         break;
     }
-    
+
     setFilteredProducts(result);
     setLoading(false);
-  }, [category, searchQuery, priceRange, selectedBrands, sortBy]);
+  }, [category, searchQuery, priceRange, selectedBrands, selectedRatings, sortBy, allProductList]);
 
-  // Toggle filter section on mobile
+  // --- Toggle filter section on mobile ---
   const toggleFilter = () => {
     setIsFilterOpen(!isFilterOpen);
   };
 
-  // Toggle expanded state of filter sections
+  // --- Toggle expanded state of filter sections ---
   const toggleFilterSection = (section) => {
     setExpandedFilters({
       ...expandedFilters,
@@ -108,7 +144,7 @@ const Products = () => {
     });
   };
 
-  // Handle brand selection
+  // --- Handle brand selection ---
   const handleBrandChange = (brand) => {
     if (selectedBrands.includes(brand)) {
       setSelectedBrands(selectedBrands.filter(b => b !== brand));
@@ -117,14 +153,35 @@ const Products = () => {
     }
   };
 
-  // Handle price range change
+  // --- Handle rating selection ---
+  const handleRatingChange = (rating) => {
+    if (selectedRatings.includes(rating)) {
+      setSelectedRatings(selectedRatings.filter(r => r !== rating));
+    } else {
+      setSelectedRatings([...selectedRatings, rating]);
+    }
+  };
+
+  // --- Handle price range change ---
   const handlePriceChange = (e, index) => {
-    const newRange = [...priceRange];
-    newRange[index] = Number(e.target.value);
+    let value = Number(e.target.value);
+    // Ensure min <= max
+    let newRange = [...priceRange];
+    newRange[index] = value;
+    if (index === 0 && value > priceRange[1]) newRange[1] = value;
+    if (index === 1 && value < priceRange[0]) newRange[0] = value;
     setPriceRange(newRange);
   };
 
-  // Get page title based on category or search
+  // --- Reset filters ---
+  const clearAllFilters = () => {
+    setPriceRange([0, maxProductPrice]);
+    setSelectedBrands([]);
+    setSelectedRatings([]);
+    setSortBy('featured');
+  };
+
+  // --- Get page title based on category or search ---
   const getPageTitle = () => {
     if (category) {
       return category.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
@@ -159,11 +216,7 @@ const Products = () => {
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-lg font-semibold">Filters</h2>
                 <button
-                  onClick={() => {
-                    setPriceRange([0, 100]);
-                    setSelectedBrands([]);
-                    setSortBy('featured');
-                  }}
+                  onClick={clearAllFilters}
                   className="text-sm text-primary hover:text-primary-dark"
                 >
                   Clear All
@@ -190,7 +243,7 @@ const Products = () => {
                       <input
                         type="range"
                         min="0"
-                        max="100"
+                        max={maxProductPrice}
                         value={priceRange[0]}
                         onChange={(e) => handlePriceChange(e, 0)}
                         className="w-full"
@@ -198,7 +251,7 @@ const Products = () => {
                       <input
                         type="range"
                         min="0"
-                        max="100"
+                        max={maxProductPrice}
                         value={priceRange[1]}
                         onChange={(e) => handlePriceChange(e, 1)}
                         className="w-full"
@@ -256,6 +309,8 @@ const Products = () => {
                           type="checkbox"
                           id={`rating-${rating}`}
                           className="mr-2"
+                          checked={selectedRatings.includes(rating)}
+                          onChange={() => handleRatingChange(rating)}
                         />
                         <label htmlFor={`rating-${rating}`} className="flex items-center">
                           {[...Array(5)].map((_, i) => (
@@ -315,11 +370,7 @@ const Products = () => {
                   Try adjusting your filters or search criteria.
                 </p>
                 <button
-                  onClick={() => {
-                    setPriceRange([0, 100]);
-                    setSelectedBrands([]);
-                    setSortBy('featured');
-                  }}
+                  onClick={clearAllFilters}
                   className="btn-primary"
                 >
                   Clear Filters

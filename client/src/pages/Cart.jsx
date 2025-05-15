@@ -253,7 +253,7 @@ const Cart = () => {
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Tax (8%)</span>
+                    <span className="text-gray-600">Tax (18%)</span>
                     <span className="font-medium">₹{tax.toFixed(2)}</span>
                   </div>
                   {couponApplied && (
@@ -291,7 +291,7 @@ const Cart = () => {
                       className="h-8 object-contain"
                     />
                     <img 
-                      src="C:\Users\naihr\Downloads\ve\client\public\images\gpay.png"
+                      src="\public\images\gpay.png"
                       alt="Google Pay" 
                       className="h-8 object-contain"
                     />

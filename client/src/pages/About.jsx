@@ -5,10 +5,10 @@ import { Link } from 'react-router-dom';
 
 // Placeholder team member data - replace with actual data
 const teamMembers = [
-  { name: 'Sohom Das', role: 'Founder & Chief Executive Officer', image: '/images/team/sohom.jpg' },
-  { name: 'Naihrit Mukherjee', role: 'Chief Technical Officer', image: '/images/team/naihrit.jpg' },
+  { name: 'Sohom Das', role: 'Founder & Chief Executive Officer', image: '/images/sd.jpg' },
+  { name: 'Naihrit Mukherjee', role: 'Chief Technical Officer', image: '/images/nm.jpg' },
   { name: 'Rajdeep Majumder', role: 'Marketing and Communication Head', image: '/images/team/rajdeep.jpg' },
-  { name: 'Krishnendu Das', role: 'System Analyser', image: '/images/team/krishnendu.jpg' },
+  { name: 'Krishnendu Das', role: 'System Analyser', image: '/images/kd.jpg' },
 ];
 
 // Placeholder core values data

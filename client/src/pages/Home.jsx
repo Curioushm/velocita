@@ -36,7 +36,7 @@ const Home = () => {
       description: 'Complete step-by-step tutorials and project kits with expert support',
       image: '/images/projectguidance.png', // Update to an existing image
       cta: 'View Projects',
-      link: '/blog/projects',
+      link: '/projects',
       bgColor: 'bg-teal-100',
     },
   ];

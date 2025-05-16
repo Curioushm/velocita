@@ -58,25 +58,25 @@ const Home = () => {
     {
       id: 3,
       name: 'Power',
-      image: '/images/categories/power.jpg',
+      image: '/images/power.jpg',
       link: '/products/power',
     },
     {
       id: 4,
       name: 'Batteries',
-      image: '/images/categories/batteries.jpg',
+      image: '/images/batteries.jpg',
       link: '/products/batteries',
     },
     {
       id: 5,
       name: 'Components',
-      image: '/images/categories/components.jpg',
+      image: '/images/components.jpg',
       link: '/products/components',
     },
     {
       id: 6,
       name: 'Tools',
-      image: '/images/categories/tools.jpg',
+      image: '/images/tools.jpg',
       link: '/products/tools',
     },
   ];

@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 const teamMembers = [
   { name: 'Sohom Das', role: 'Founder & Chief Executive Officer', image: '/images/sd.jpg' },
   { name: 'Naihrit Mukherjee', role: 'Chief Technical Officer', image: '/images/nm.jpg' },
-  { name: 'Rajdeep Majumder', role: 'Marketing and Communication Head', image: '/images/team/rajdeep.jpg' },
+  { name: 'Rajdeep Majumder', role: 'Marketing and Communication Head', image: '/images/rm.jpg' },
   { name: 'Krishnendu Das', role: 'System Analyser', image: '/images/kd.jpg' },
 ];
 
